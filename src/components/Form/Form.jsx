@@ -1,22 +1,33 @@
 import { useState } from 'react';
 import css from './form.module.css';
 import { nanoid } from 'nanoid';
-import { getContact, getUser } from 'store/selectors/selectors';
+import { getContact } from 'store/selectors/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { createContact } from 'store/contactsSlice/contactsSlice';
-import { resetUser, resultUser } from 'store/userSlice/userSlice';
 
 const Form = () => {
-  const { name, number } = useSelector(getUser);
-  const { contacts } = useSelector(getContact);
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  const contacts = useSelector(getContact);
   const distpatch = useDispatch();
   const handlerChange = evt => {
-    distpatch(resultUser(evt.target));
+    const { name, value } = evt.target;
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        return;
+    }
   };
   const handlerSubmit = evt => {
     evt.preventDefault();
     const data = { id: nanoid(), name: name, number: number };
-    distpatch(resetUser());
+    setName('');
+    setNumber('');
     const result = contacts.find(
       ({ name }) => name.toLowerCase() === data.name.toLowerCase()
     );

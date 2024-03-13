@@ -4,8 +4,8 @@ import { getContact, getFilter } from 'store/selectors/selectors';
 import { deleteContact } from 'store/contactsSlice/contactsSlice';
 
 const ListContact = () => {
-  const { contacts } = useSelector(getContact);
-  const { filter } = useSelector(getFilter);
+  const contacts = useSelector(getContact);
+  const filter = useSelector(getFilter);
   const distpatch = useDispatch();
   const onFilter = evt => {
     if (!filter) {
